@@ -12,13 +12,10 @@ from enum import IntEnum
 
 class Logging:
     def __init__(self):
-        self._logs_path = "/home/pre-receive-logs/"
-
-    def _unit(self):
-        return dt.datetime.today().strftime('%Y-%m-%d')
+        self._dt = dt.datetime.today().strftime('%Y%m%d')
 
     def write(self, log_str):
-        with open(f"{self._logs_path}{self._unit()}-pre-receive.log", "a+", encoding="utf-8") as f_log:
+        with open(f"{self._dt}-pre-receive.log", "a+", encoding="utf-8") as f_log:
             f_log.write(log_str)
 
 
