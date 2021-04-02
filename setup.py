@@ -30,11 +30,11 @@ with open('README.rst') as fd:
     readme = fd.read()
 
 setup(
-    name='sc-githooks',
+    name='xt-githooks',
     version=get_version("githooks/__init__.py"),
-    url='https://github.com/Scott-Lau/sc-githooks',
+    url='https://github.com/mxtadmin/sc-githooks',
     packages=find_packages(),
-    author='Scott Lau',
+    author='Scott Lau, Mao Xinteng',
     author_email='exceedego@126.com',
     license='MIT',
     platforms='POSIX',

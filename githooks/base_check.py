@@ -5,7 +5,14 @@ Portions Copyright (c) 2021 InnoGames GmbH
 Portions Copyright (c) 2021 Emre Hasegeli
 """
 
+import logging
 from enum import IntEnum
+
+
+logging.basicConfig(filename="/home/pre-receive-logs/pre-receive.log",
+                    format='%(asctime)s:%(message)s',
+                    datefmt='%Y/%m/%d %I:%M:%S %p',
+                    level=logging.DEBUG)
 
 
 class CheckState(IntEnum):
@@ -89,8 +96,10 @@ class BaseCheck:
         for severity, problem in self.evaluate_problems():
             if not header_printed:
                 print('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
+                logging.warning('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
                 header_printed = True
             print('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
+            logging.warning('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
         # if header_printed:
         #     print('{}'.format(BaseCheck.ERROR_MSG_PREFIX))
         self.set_state(CheckState.DONE)
