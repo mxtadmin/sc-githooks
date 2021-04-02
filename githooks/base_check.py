@@ -15,7 +15,7 @@ class Logging:
         self._dt = dt.datetime.today().strftime('%Y%m%d')
 
     def write(self, log_str):
-        with open(f"{self._dt}-pre-receive.log", "a+", encoding="utf-8") as f_log:
+        with open(f"logs/{self._dt}-pre-receive.log", "a+", encoding="utf-8") as f_log:
             f_log.write(log_str)
 
 
@@ -103,10 +103,10 @@ class BaseCheck:
         for severity, problem in self.evaluate_problems():
             if not header_printed:
                 print('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
-                logging.write('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
+                logging.write('{} === {} ===\n'.format(BaseCheck.ERROR_MSG_PREFIX, self))
                 header_printed = True
             print('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
-            logging.write('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
+            logging.write('{} {}: {}\n'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
         # if header_printed:
         #     print('{}'.format(BaseCheck.ERROR_MSG_PREFIX))
         self.set_state(CheckState.DONE)
