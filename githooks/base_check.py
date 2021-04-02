@@ -4,15 +4,25 @@ Copyright (c) 2021 Scott Lau
 Portions Copyright (c) 2021 InnoGames GmbH
 Portions Copyright (c) 2021 Emre Hasegeli
 """
+import datetime as dt
 
-import logging
+
 from enum import IntEnum
 
 
-logging.basicConfig(filename="/home/pre-receive-logs/pre-receive.log",
-                    format='%(asctime)s:%(message)s',
-                    datefmt='%Y/%m/%d %I:%M:%S %p',
-                    level=logging.DEBUG)
+class Logging:
+    def __init__(self):
+        self._logs_path = "/home/pre-receive-logs/"
+
+    def _unit(self):
+        return dt.datetime.today().strftime('%Y-%m-%d')
+
+    def write(self, log_str):
+        with open(f"{self._logs_path}{self._unit()}-pre-receive.log", "a+", encoding="utf-8") as f_log:
+            f_log.write(log_str)
+
+
+logging = Logging()
 
 
 class CheckState(IntEnum):
@@ -96,10 +106,10 @@ class BaseCheck:
         for severity, problem in self.evaluate_problems():
             if not header_printed:
                 print('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
-                logging.warning('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
+                logging.write('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
                 header_printed = True
             print('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
-            logging.warning('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
+            logging.write('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
         # if header_printed:
         #     print('{}'.format(BaseCheck.ERROR_MSG_PREFIX))
         self.set_state(CheckState.DONE)
