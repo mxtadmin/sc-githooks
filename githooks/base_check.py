@@ -15,7 +15,7 @@ class Logging:
         self._dt = dt.datetime.today().strftime('%Y%m%d')
 
     def write(self, log_str):
-        with open(f"logs/{self._dt}-pre-receive.log", "a+", encoding="utf-8") as f_log:
+        with open(f"{self._dt}-pre-receive.log", "a+", encoding="utf-8") as f_log:
             f_log.write(log_str)
 
 
