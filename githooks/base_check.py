@@ -123,10 +123,10 @@ class BaseCheck:
 
 
 def prepare_checks(checks, obj, next_checks=None):
-    """Prepare the checks to the object
+    """准备检查对象
 
-    It yields the checks prepared and ready.  The checks which are not
-    ready yet are going do be appended to the next_checks list.
+    它产生准备就绪的checks。不符合要求的checks准备好了吗？
+    下一张check list上会有。
     """
     for check in checks:
         prepared_check = check.prepare(obj)

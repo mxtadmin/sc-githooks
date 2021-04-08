@@ -1,5 +1,6 @@
 """sc-githooks - Pre-receive hook routines
 
+Copyright (c) 2021 MaoXinTeng
 Copyright (c) 2021 Scott Lau
 Portions Copyright (c) 2021 InnoGames GmbH
 Portions Copyright (c) 2021 Emre Hasegeli
@@ -33,12 +34,10 @@ class Runner(object):
 
         state = CheckState.NEW
 
-        # We are buffering the checks to let them run parallel in
-        # the background.  Parallelization only applies to the CheckCommands.
-        # It has no overhead, because we have to run those commands the same
-        # way externally, anyway.  We only have a limit to avoid consuming
-        # too many processes.
-        # sc: add DEV_MODE
+        # 我们正在缓冲检查，让它们在后台并行运行。并行化只适用于CheckCommands。
+        # 它没有开销，因为我们必须以同样的方式在外部运行这些命令。
+        # 我们只有一个限制，以避免消耗太多的进程。
+        # add DEV_MODE
         dev_mode = False
         try:
             dev_mode = config.get("dev.dev_mode")
@@ -58,11 +57,15 @@ class Runner(object):
 
     def expand_checks(self, checks):
         next_checks = []
+        print('expand_checks: \n  %s' % checks)
         for check in prepare_checks(checks, None, next_checks):
+            print('expand_checks--yield check: \n  %s' % checks)
             yield check
 
         for line in input():
+            print('expand_checks--input(): \n  %s' % line)
             for check in self.expand_checks_to_input(next_checks, line):
+                print('expand_checks--input()--yield check: \n  %s' % check)
                 yield check
 
     def expand_checks_to_input(self, checks, line):
