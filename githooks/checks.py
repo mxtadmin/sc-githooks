@@ -22,7 +22,7 @@ from githooks.file_checks import (
     CommittedFileExtensionCheck,
 )
 
-checks = []  # type: list
+checks = list()
 
 # # Commit list checks
 # # 检查多个提交的提交标题是否重复
@@ -48,5 +48,5 @@ checks.append(CheckBinaryFiles())
 # 检查文件后缀名
 checks.append(CommittedFileExtensionCheck())
 
-# Commit file size check
+# 检查文件大小
 checks.append(CommittedFileSizeCheck())

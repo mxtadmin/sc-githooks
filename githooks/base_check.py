@@ -74,6 +74,7 @@ class BaseCheck:
     preferred_checks = []
     state = CheckState.NEW
     ERROR_MSG_PREFIX = "GL-HOOK-ERR:"
+    NOW_TIME = dt.datetime.now().strftime('%Y-%m%d')
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -103,10 +104,10 @@ class BaseCheck:
         for severity, problem in self.evaluate_problems():
             if not header_printed:
                 print('{} === {} ==='.format(BaseCheck.ERROR_MSG_PREFIX, self))
-                logging.write('{} === {} ===\n'.format(BaseCheck.ERROR_MSG_PREFIX, self))
+                logging.write('{} === {} ===\n'.format(BaseCheck.NOW_TIME, self))
                 header_printed = True
             print('{} {}: {}'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
-            logging.write('{} {}: {}\n'.format(BaseCheck.ERROR_MSG_PREFIX, severity.translate(), problem))
+            logging.write('{} {}: {}\n'.format(BaseCheck.NOW_TIME, severity.translate(), problem))
         # if header_printed:
         #     print('{}'.format(BaseCheck.ERROR_MSG_PREFIX))
         self.set_state(CheckState.DONE)

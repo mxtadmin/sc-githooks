@@ -39,10 +39,10 @@ class CommittedFileSizeCheck(CommittedFileCheck):
         if self.committed_file.get_file_size() >= config.get("commit_check.commit_file_max_size"):
             yield (
                 Severity.ERROR,
-                '提交 {} 的文件 {} 大小超过 {}, 即 {} MB'
-                    .format(self.committed_file.commit, self.committed_file.path,
-                            config.get("commit_check.commit_file_max_size"),
-                            config.get("commit_check.commit_file_max_size") / 1024 / 1024)
+                '提交 {} 的文件 {} 大小超过 {}, 即 {} MB'.format(
+                    self.committed_file.commit, self.committed_file.path,
+                    config.get("commit_check.commit_file_max_size"),
+                    config.get("commit_check.commit_file_max_size") / 1024 / 1024)
             )
 
 
@@ -57,11 +57,13 @@ class CommittedFileExtensionCheck(CommittedFileCheck):
         filename = self.committed_file.get_filename()
         if filename in legal_binary_filenames_list:
             return
+        yield (
+            Severity.ERROR,
+            '提交 {} 的文件 {} 在不允许的提交文件后缀名清单中 {}'.format(
+                self.committed_file.commit,
+                self.committed_file.path,
+                illegal_suffixes_list)
+        )
         extension = self.committed_file.get_extension()
         if extension in illegal_suffixes_list:
-            yield (
-                Severity.ERROR,
-                '提交 {} 的文件 {} 在不允许的提交文件后缀名清单中 {}'
-                    .format(self.committed_file.commit, self.committed_file.path,
-                            illegal_suffixes_list)
-            )
+            pass

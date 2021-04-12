@@ -57,15 +57,11 @@ class Runner(object):
 
     def expand_checks(self, checks):
         next_checks = []
-        print('expand_checks: \n  %s' % checks)
         for check in prepare_checks(checks, None, next_checks):
-            print('expand_checks--yield check: \n  %s' % checks)
             yield check
 
         for line in input():
-            print('expand_checks--input(): \n  %s' % line)
             for check in self.expand_checks_to_input(next_checks, line):
-                print('expand_checks--input()--yield check: \n  %s' % check)
                 yield check
 
     def expand_checks_to_input(self, checks, line):
@@ -155,5 +151,4 @@ def main():
     else:
         if state >= CheckState.FAILED:
             return 1
-
     return 0
